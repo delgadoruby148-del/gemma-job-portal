@@ -1,82 +1,8 @@
-"use client";
-
-import { useEffect, useRef } from "react";
-
-const animationCss = `
-  .gemma-scene {
-    display: block;
-    width: 100%;
-    height: 100%;
-    background: transparent;
-  }
-
-  .gemma-mark {
-    transform-box: fill-box;
-    transform-origin: center;
-    animation: gemma-assemble 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
-  }
-
-  .gemma-draw {
-    stroke-dasharray: 1;
-    stroke-dashoffset: 1;
-    animation: gemma-draw var(--dur, 0.45s) cubic-bezier(0.45, 0, 0.15, 1) var(--delay, 0s) forwards;
-  }
-
-  .gemma-word {
-    opacity: 0;
-    clip-path: inset(100% 0 0 0);
-    animation: gemma-buildup 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.85s forwards;
-  }
-
-  @keyframes gemma-draw {
-    to { stroke-dashoffset: 0; }
-  }
-
-  @keyframes gemma-assemble {
-    0% { transform: scale(0.42); }
-    62% { transform: scale(1); }
-    100% { transform: scale(1); }
-  }
-
-  @keyframes gemma-buildup {
-    0% { opacity: 0; clip-path: inset(100% 0 0 0); }
-    20% { opacity: 1; }
-    100% { opacity: 1; clip-path: inset(0 0 0 0); }
-  }
-`;
-
 export function GemmaMark() {
-  const rootRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const root = rootRef.current;
-    if (!root) return;
-
-    const scene = root.querySelector(".gemma-scene");
-    if (!scene) return;
-
-    const nodes = () =>
-      scene.querySelectorAll<HTMLElement>(".gemma-draw, .gemma-word, .gemma-mark");
-
-    const replay = () => {
-      nodes().forEach((node) => {
-        node.style.animation = "none";
-      });
-      void scene.getBoundingClientRect();
-      nodes().forEach((node) => {
-        node.style.animation = "";
-      });
-    };
-
-    const timer = window.setInterval(replay, 3000);
-    return () => window.clearInterval(timer);
-  }, []);
-
   return (
-    <div ref={rootRef} className="h-40 w-56 sm:h-44 sm:w-64">
-      <style>{animationCss}</style>
+    <div className="h-40 w-56 sm:h-44 sm:w-64">
       <svg
-        className="gemma-scene"
+        className="block h-full w-full"
         viewBox="250 70 530 370"
         preserveAspectRatio="xMidYMid meet"
         role="img"
@@ -104,40 +30,28 @@ export function GemmaMark() {
           />
         </defs>
 
-        <g className="gemma-mark" fill="none" stroke="url(#gemma-mark-stroke)" strokeLinecap="butt" strokeLinejoin="round">
-          <circle
-            className="gemma-draw"
-            cx="511.5"
-            cy="196.5"
-            r="70.71"
-            strokeWidth="4.5"
-            pathLength="1"
-            transform="rotate(-90 511.5 196.5)"
-            style={{ ["--delay" as string]: "0.75s", ["--dur" as string]: "0.5s" }}
-          />
-          <path className="gemma-draw" pathLength="1" strokeWidth="4.5" style={{ ["--delay" as string]: "0.12s", ["--dur" as string]: "0.4s" }} d="M 511.5 196.5 V 96.5" />
-          <path className="gemma-draw" pathLength="1" strokeWidth="4.5" style={{ ["--delay" as string]: "0.12s", ["--dur" as string]: "0.4s" }} d="M 511.5 196.5 V 296.5" />
-          <path className="gemma-draw" pathLength="1" strokeWidth="4.5" style={{ ["--delay" as string]: "0.12s", ["--dur" as string]: "0.4s" }} d="M 511.5 196.5 H 411.5" />
-          <path className="gemma-draw" pathLength="1" strokeWidth="4.5" style={{ ["--delay" as string]: "0.12s", ["--dur" as string]: "0.4s" }} d="M 511.5 196.5 H 611.5" />
-          <path className="gemma-draw" pathLength="1" strokeWidth="4.5" style={{ ["--delay" as string]: "0.42s", ["--dur" as string]: "0.35s" }} d="M 511.5 146.5 H 436.5" />
-          <path className="gemma-draw" pathLength="1" strokeWidth="4.5" style={{ ["--delay" as string]: "0.42s", ["--dur" as string]: "0.35s" }} d="M 511.5 146.5 H 586.5" />
-          <path className="gemma-draw" pathLength="1" strokeWidth="4.5" style={{ ["--delay" as string]: "0.5s", ["--dur" as string]: "0.35s" }} d="M 511.5 246.5 H 436.5" />
-          <path className="gemma-draw" pathLength="1" strokeWidth="4.5" style={{ ["--delay" as string]: "0.5s", ["--dur" as string]: "0.35s" }} d="M 511.5 246.5 H 586.5" />
-          <path className="gemma-draw" pathLength="1" strokeWidth="4.5" style={{ ["--delay" as string]: "0.58s", ["--dur" as string]: "0.35s" }} d="M 461.5 196.5 V 121.5" />
-          <path className="gemma-draw" pathLength="1" strokeWidth="4.5" style={{ ["--delay" as string]: "0.58s", ["--dur" as string]: "0.35s" }} d="M 461.5 196.5 V 271.5" />
-          <path className="gemma-draw" pathLength="1" strokeWidth="4.5" style={{ ["--delay" as string]: "0.64s", ["--dur" as string]: "0.35s" }} d="M 561.5 196.5 V 121.5" />
-          <path className="gemma-draw" pathLength="1" strokeWidth="4.5" style={{ ["--delay" as string]: "0.64s", ["--dur" as string]: "0.35s" }} d="M 561.5 196.5 V 271.5" />
+        <g fill="none" stroke="url(#gemma-mark-stroke)" strokeLinecap="butt" strokeLinejoin="round">
+          <circle cx="511.5" cy="196.5" r="70.71" strokeWidth="4.5" transform="rotate(-90 511.5 196.5)" />
+          <path strokeWidth="4.5" d="M 511.5 196.5 V 96.5" />
+          <path strokeWidth="4.5" d="M 511.5 196.5 V 296.5" />
+          <path strokeWidth="4.5" d="M 511.5 196.5 H 411.5" />
+          <path strokeWidth="4.5" d="M 511.5 196.5 H 611.5" />
+          <path strokeWidth="4.5" d="M 511.5 146.5 H 436.5" />
+          <path strokeWidth="4.5" d="M 511.5 146.5 H 586.5" />
+          <path strokeWidth="4.5" d="M 511.5 246.5 H 436.5" />
+          <path strokeWidth="4.5" d="M 511.5 246.5 H 586.5" />
+          <path strokeWidth="4.5" d="M 461.5 196.5 V 121.5" />
+          <path strokeWidth="4.5" d="M 461.5 196.5 V 271.5" />
+          <path strokeWidth="4.5" d="M 561.5 196.5 V 121.5" />
+          <path strokeWidth="4.5" d="M 561.5 196.5 V 271.5" />
           <path
-            className="gemma-draw"
-            pathLength="1"
             strokeWidth="9"
             strokeLinecap="round"
-            style={{ ["--delay" as string]: "1.15s", ["--dur" as string]: "0.55s" }}
             d="M 511.5 125.79 Q 511.5 196.5 582.21 196.5 Q 511.5 196.5 511.5 267.21 Q 511.5 196.5 440.79 196.5 Q 511.5 196.5 511.5 125.79"
           />
         </g>
 
-        <g className="gemma-word">
+        <g>
           <use href="#gemma-word" fill="url(#gemma-word-base)" />
           <use href="#gemma-word" fill="url(#gemma-word-sheen)" />
         </g>
