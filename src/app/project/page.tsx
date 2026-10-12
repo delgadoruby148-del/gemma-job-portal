@@ -86,12 +86,12 @@ const checks = [
 
 export default function ProjectPage() {
   return (
-    <div className="min-h-dvh bg-slate-950 text-slate-100">
-      <header className="border-b border-slate-800">
+    <div className="min-h-dvh bg-white text-slate-900 scheme-light">
+      <header className="border-b border-slate-200">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-6 py-5">
           <Link
             href="/"
-            className="text-sm font-medium text-slate-300 transition hover:text-white"
+            className="text-sm font-medium text-slate-600 transition hover:text-slate-950"
           >
             Back to application
           </Link>
@@ -100,23 +100,25 @@ export default function ProjectPage() {
       </header>
 
       <main className="mx-auto max-w-3xl px-6 py-12 sm:py-16">
-        <p className="text-sm font-medium tracking-wide text-blue-400 uppercase">
+        <p className="text-sm font-medium tracking-wide text-blue-700 uppercase">
           Project Gemma
         </p>
-        <h1 className="mt-3 font-serif text-4xl leading-tight tracking-tight sm:text-5xl">
+        <h1 className="mt-3 font-serif text-4xl leading-tight tracking-tight text-slate-950 sm:text-5xl">
           Senior AI Model Specialist / Prompt Evaluator
         </h1>
 
-        <dl className="mt-8 grid gap-4 sm:grid-cols-2">
-          <div className="rounded-2xl border border-slate-800 bg-slate-900 px-5 py-4">
-            <dt className="text-sm text-slate-400">Compensation</dt>
-            <dd className="mt-1 text-lg font-medium text-slate-100">
+        <dl className="mt-8 grid gap-4">
+          <div className="rounded-2xl border-2 border-blue-600 bg-blue-50 px-6 py-5">
+            <dt className="text-sm font-semibold tracking-wide text-blue-800 uppercase">
+              Pay rate
+            </dt>
+            <dd className="mt-1 text-4xl font-bold tracking-tight text-slate-950 sm:text-5xl">
               $100.00 / hour
             </dd>
           </div>
-          <div className="rounded-2xl border border-slate-800 bg-slate-900 px-5 py-4">
-            <dt className="text-sm text-slate-400">Task type</dt>
-            <dd className="mt-1 text-lg font-medium text-slate-100">
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4">
+            <dt className="text-sm text-slate-600">Task type</dt>
+            <dd className="mt-1 text-lg font-medium text-slate-950">
               Prompt Engineering, Comparative Scoring & Expert Rewriting
             </dd>
           </div>
@@ -124,7 +126,7 @@ export default function ProjectPage() {
 
         <section className="mt-12">
           <h2 className="font-serif text-2xl tracking-tight">Project overview</h2>
-          <div className="mt-4 space-y-4 text-base leading-7 text-slate-300">
+          <div className="mt-4 space-y-4 text-base leading-7 text-slate-700">
             <p>
               Project Gemma focuses on training next-generation large language
               models to form balanced, well-supported, and highly clear opinions
@@ -150,12 +152,12 @@ export default function ProjectPage() {
               (step, index) => (
                 <li
                   key={step}
-                  className="rounded-2xl border border-slate-800 bg-slate-900 px-4 py-4"
+                  className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4"
                 >
-                  <p className="font-serif text-blue-400">
+                  <p className="font-serif text-blue-700">
                     {String(index + 1).padStart(2, "0")}
                   </p>
-                  <p className="mt-2 font-medium text-slate-100">{step}</p>
+                  <p className="mt-2 font-medium text-slate-950">{step}</p>
                 </li>
               ),
             )}
@@ -166,7 +168,7 @@ export default function ProjectPage() {
           <h2 className="font-serif text-2xl tracking-tight">
             Step 01: Topic selection
           </h2>
-          <p className="mt-4 text-base leading-7 text-slate-300">
+          <p className="mt-4 text-base leading-7 text-slate-700">
             Choose one domain from the 16 core topic areas below. Select a topic
             where you can formulate a realistic scenario involving multiple
             viewpoints or conflicting priorities.
@@ -174,10 +176,10 @@ export default function ProjectPage() {
           <div className="mt-6 space-y-6">
             {topics.map((group) => (
               <div key={group.category}>
-                <h3 className="text-sm font-medium tracking-wide text-blue-400 uppercase">
+                <h3 className="text-sm font-medium tracking-wide text-blue-700 uppercase">
                   {group.category}
                 </h3>
-                <ul className="mt-2 space-y-1 text-slate-200">
+                <ul className="mt-2 space-y-1 text-slate-800">
                   {group.items.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
@@ -185,7 +187,7 @@ export default function ProjectPage() {
               </div>
             ))}
           </div>
-          <p className="mt-6 text-base leading-7 text-slate-300">
+          <p className="mt-6 text-base leading-7 text-slate-700">
             Selection rule: pick a topic you can contextualize with a clear
             audience and explicit constraints in Step 02.
           </p>
@@ -195,7 +197,7 @@ export default function ProjectPage() {
           <h2 className="font-serif text-2xl tracking-tight">
             Step 02: Write the prompt
           </h2>
-          <div className="mt-4 space-y-4 text-base leading-7 text-slate-300">
+          <div className="mt-4 space-y-4 text-base leading-7 text-slate-700">
             <p>
               Your prompt must ask for an opinion in your own words. Do not ask
               simple factual questions (for example, “What is zoning?”).
@@ -204,25 +206,25 @@ export default function ProjectPage() {
             </p>
             <p>Required prompt components:</p>
           </div>
-          <ul className="mt-4 space-y-3 text-base leading-7 text-slate-300">
+          <ul className="mt-4 space-y-3 text-base leading-7 text-slate-700">
             <li>
-              <span className="font-medium text-slate-100">Target audience.</span>{" "}
+              <span className="font-medium text-slate-950">Target audience.</span>{" "}
               Explicitly state who the answer is for, such as a city council
               transportation committee, a high school principal, or a tech
               company HR board.
             </li>
             <li>
-              <span className="font-medium text-slate-100">Scope and coverage.</span>{" "}
+              <span className="font-medium text-slate-950">Scope and coverage.</span>{" "}
               Define at least 2–3 specific elements or trade-offs the answer
               must cover.
             </li>
             <li>
-              <span className="font-medium text-slate-100">Tone and stance.</span>{" "}
+              <span className="font-medium text-slate-950">Tone and stance.</span>{" "}
               Prompt the model to deliver a definitive opinion without resorting
               to generic, fence-sitting language.
             </li>
           </ul>
-          <blockquote className="mt-6 rounded-2xl border border-slate-800 bg-slate-900 px-5 py-4 text-base leading-7 text-slate-300">
+          <blockquote className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-base leading-7 text-slate-700">
             I am presenting to a municipal planning board regarding our
             city&apos;s 5-year transportation budget. Give me a clear opinion on
             whether we should prioritize expanding light rail lines or upgrading
@@ -236,7 +238,7 @@ export default function ProjectPage() {
           <h2 className="font-serif text-2xl tracking-tight">
             Step 03: Rate and rewrite
           </h2>
-          <p className="mt-4 text-base leading-7 text-slate-300">
+          <p className="mt-4 text-base leading-7 text-slate-700">
             Once you submit your prompt, you will evaluate the AI model’s
             generated response against 5 core evaluation criteria using a 1–5
             scale.
@@ -244,14 +246,14 @@ export default function ProjectPage() {
           <ol className="mt-6 space-y-4">
             {rubric.map((item, index) => (
               <li key={item.name} className="flex gap-4">
-                <span className="font-serif text-lg text-blue-400">
+                <span className="font-serif text-lg text-blue-700">
                   {index + 1}
                 </span>
                 <div>
-                  <p className="font-medium text-slate-100">
+                  <p className="font-medium text-slate-950">
                     {item.name} (1–5)
                   </p>
-                  <p className="mt-1 text-base leading-7 text-slate-300">
+                  <p className="mt-1 text-base leading-7 text-slate-700">
                     {item.body}
                   </p>
                 </div>
@@ -262,11 +264,11 @@ export default function ProjectPage() {
           <h3 className="mt-8 font-serif text-xl tracking-tight">
             Expert model rewrite
           </h3>
-          <p className="mt-3 text-base leading-7 text-slate-300">
+          <p className="mt-3 text-base leading-7 text-slate-700">
             After scoring the baseline response, provide a complete rewrite of
             the response. Your rewrite must:
           </p>
-          <ul className="mt-3 list-disc space-y-2 pl-5 text-base leading-7 text-slate-300">
+          <ul className="mt-3 list-disc space-y-2 pl-5 text-base leading-7 text-slate-700">
             <li>Fix every flaw identified during your rating phase.</li>
             <li>Strengthen the supporting evidence and logical flow.</li>
             <li>
@@ -280,7 +282,7 @@ export default function ProjectPage() {
           <h2 className="font-serif text-2xl tracking-tight">
             Submission and review criteria
           </h2>
-          <p className="mt-4 text-base leading-7 text-slate-300">
+          <p className="mt-4 text-base leading-7 text-slate-700">
             Before clicking Submit Task, confirm that your work meets the
             following quality controls:
           </p>
@@ -288,7 +290,7 @@ export default function ProjectPage() {
             {checks.map((check) => (
               <li
                 key={check}
-                className="rounded-2xl border border-slate-800 bg-slate-900 px-5 py-4 text-base leading-7 text-slate-200"
+                className="rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-base leading-7 text-slate-800"
               >
                 {check}
               </li>
@@ -300,25 +302,27 @@ export default function ProjectPage() {
           <h2 className="font-serif text-2xl tracking-tight">
             Task summary metrics
           </h2>
-          <p className="mt-4 text-base leading-7 text-slate-300">
+          <p className="mt-4 text-base leading-7 text-slate-700">
             When you click Submit Task, your submission summary will calculate:
           </p>
           <dl className="mt-6 grid gap-4 sm:grid-cols-3">
-            <div className="rounded-2xl border border-slate-800 bg-slate-900 px-5 py-4">
-              <dt className="font-medium text-slate-100">Total elapsed time</dt>
-              <dd className="mt-1 text-sm leading-6 text-slate-400">
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4">
+              <dt className="font-medium text-slate-950">Total elapsed time</dt>
+              <dd className="mt-1 text-sm leading-6 text-slate-600">
                 Tracked in real time (MM:SS).
               </dd>
             </div>
-            <div className="rounded-2xl border border-slate-800 bg-slate-900 px-5 py-4">
-              <dt className="font-medium text-slate-100">Total earnings</dt>
-              <dd className="mt-1 text-sm leading-6 text-slate-400">
-                Calculated automatically at the $100.00/hr base rate.
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4">
+              <dt className="font-medium text-slate-950">Total earnings</dt>
+              <dd className="mt-1 text-sm leading-6 text-slate-600">
+                Calculated automatically at the{" "}
+                <span className="font-bold text-slate-950">$100.00/hr</span>{" "}
+                base rate.
               </dd>
             </div>
-            <div className="rounded-2xl border border-slate-800 bg-slate-900 px-5 py-4">
-              <dt className="font-medium text-slate-100">Quality score</dt>
-              <dd className="mt-1 text-sm leading-6 text-slate-400">
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4">
+              <dt className="font-medium text-slate-950">Quality score</dt>
+              <dd className="mt-1 text-sm leading-6 text-slate-600">
                 Summary of rubric points assigned during Step 03.
               </dd>
             </div>
@@ -327,7 +331,7 @@ export default function ProjectPage() {
 
         <Link
           href="/"
-          className="mt-12 inline-flex h-11 items-center rounded-full bg-blue-600 px-5 text-sm font-medium text-white transition hover:bg-blue-700 active:bg-blue-800 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 focus-visible:outline-none"
+          className="mt-12 inline-flex h-11 items-center rounded-full bg-blue-600 px-5 text-sm font-medium text-white transition hover:bg-blue-700 active:bg-blue-800 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-none"
         >
           Back to application
         </Link>

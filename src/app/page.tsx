@@ -32,8 +32,16 @@ export default function Home() {
             Apply to join Gemma.
           </h1>
           <p className="mt-5 max-w-sm text-base leading-7 text-slate-300">
-            Senior AI Model Specialist. Write prompts, score model answers, and
-            draft the benchmark response. $100.00 an hour.
+            Project Gemma trains models to give clear, balanced opinions. As a
+            Senior AI Model Specialist, you write real-world prompts, score each
+            answer on five criteria, and rewrite a gold-standard response.
+          </p>
+          <p className="mt-4 text-2xl font-bold tracking-tight text-white">
+            $100.00 / hour
+          </p>
+          <p className="mt-3 max-w-sm text-sm leading-6 text-slate-400">
+            Choose one of 16 topics, draft a prompt that asks for a definite
+            opinion, then rate the model and rewrite the answer.
           </p>
           <Link
             href="/project"
