@@ -13,15 +13,39 @@ const CV_MIME_TYPES = {
 } as const;
 
 export const ALLOWED_COUNTRIES = [
-  "United States",
-  "United Kingdom",
-  "Canada",
-  "Australia",
-  "Ireland",
-  "New Zealand",
+  { name: "United States", code: "us", dial: "+1" },
+  { name: "United Kingdom", code: "gb", dial: "+44" },
+  { name: "Canada", code: "ca", dial: "+1" },
+  { name: "Australia", code: "au", dial: "+61" },
+  { name: "Ireland", code: "ie", dial: "+353" },
+  { name: "New Zealand", code: "nz", dial: "+64" },
 ] as const;
 
-const ALLOWED_COUNTRY_SET = new Set<string>(ALLOWED_COUNTRIES);
+const ALLOWED_COUNTRY_SET = new Set<string>(ALLOWED_COUNTRIES.map((country) => country.name));
+
+const DIAL_CODES = [...new Set(ALLOWED_COUNTRIES.map((country) => country.dial))].sort(
+  (left, right) => right.length - left.length,
+);
+
+export function dialCodeFor(country: string): string | null {
+  return ALLOWED_COUNTRIES.find((item) => item.name === country)?.dial ?? null;
+}
+
+export function applyDialCode(phone: string, dial: string): string {
+  const trimmed = phone.trim();
+  if (!trimmed) {
+    return `${dial} `;
+  }
+
+  for (const code of DIAL_CODES) {
+    if (trimmed === code || trimmed.startsWith(`${code} `) || trimmed.startsWith(code)) {
+      const rest = trimmed.slice(code.length).trimStart();
+      return rest ? `${dial} ${rest}` : `${dial} `;
+    }
+  }
+
+  return `${dial} ${trimmed}`;
+}
 
 const DISCORD_PATTERN = /^[a-zA-Z0-9._]{2,32}$/;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

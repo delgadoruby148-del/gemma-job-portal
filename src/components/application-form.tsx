@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import {
   ALLOWED_COUNTRIES,
   FIELD_ORDER,
+  applyDialCode,
+  dialCodeFor,
   getCvError,
   MAX_CV_MB,
   MAX_DESCRIPTION_LENGTH,
@@ -103,6 +105,19 @@ export function ApplicationForm() {
   function updateField<K extends keyof ApplicationFields>(key: K, value: ApplicationFields[K]) {
     setFields((current) => ({ ...current, [key]: value }));
     clearFieldError(key);
+  }
+
+  function selectCountry(country: string) {
+    const dial = dialCodeFor(country);
+    setFields((current) => ({
+      ...current,
+      country,
+      phoneNumber: dial ? applyDialCode(current.phoneNumber, dial) : current.phoneNumber,
+    }));
+    clearFieldError("country");
+    if (dial) {
+      clearFieldError("phoneNumber");
+    }
   }
 
   function acceptFile(file: File | null) {
@@ -258,7 +273,7 @@ export function ApplicationForm() {
             <CountryField
               value={fields.country}
               error={fieldErrors.country}
-              onChange={(value) => updateField("country", value)}
+              onChange={selectCountry}
             />
           </div>
           <TextField
@@ -430,6 +445,18 @@ export function ApplicationForm() {
   );
 }
 
+function CountryFlag({ code }: { code: string }) {
+  return (
+    <img
+      src={`/flags/${code}.svg`}
+      alt=""
+      width={24}
+      height={16}
+      className="h-4 w-6 shrink-0 rounded-sm object-cover ring-1 ring-slate-200"
+    />
+  );
+}
+
 function CountryField({
   value,
   onChange,
@@ -439,36 +466,56 @@ function CountryField({
   onChange: (value: string) => void;
   error?: string;
 }) {
-  const errorId = "country-error";
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const listId = useId();
+  const selected = ALLOWED_COUNTRIES.find((country) => country.name === value);
+  const hintId = error ? "country-error" : "country-hint";
+
+  useEffect(() => {
+    if (!open) return;
+
+    function onPointerDown(event: MouseEvent) {
+      if (!rootRef.current?.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    }
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open]);
 
   return (
-    <div className="flex flex-col gap-2">
-      <label htmlFor="country" className="text-sm font-medium text-slate-900">
+    <div ref={rootRef} className="relative flex flex-col gap-2">
+      <label id="country-label" htmlFor="country" className="text-sm font-medium text-slate-900">
         Country
       </label>
-      <div className="relative">
-        <select
-          id="country"
-          name="country"
-          value={value}
-          autoComplete="country-name"
-          aria-invalid={Boolean(error)}
-          aria-describedby={error ? errorId : "country-hint"}
-          onChange={(event) => onChange(event.target.value)}
-          className={`${controlClass} h-12 appearance-none pr-10 ${value ? "" : "text-slate-400"}`}
-        >
-          <option value="">Select your country</option>
-          {ALLOWED_COUNTRIES.map((country) => (
-            <option key={country} value={country}>
-              {country}
-            </option>
-          ))}
-        </select>
-        <svg
-          viewBox="0 0 20 20"
-          aria-hidden="true"
-          className="pointer-events-none absolute top-1/2 right-3.5 h-4 w-4 -translate-y-1/2 text-slate-500"
-        >
+      <button
+        id="country"
+        type="button"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-controls={listId}
+        aria-invalid={Boolean(error)}
+        aria-describedby={hintId}
+        onClick={() => setOpen((current) => !current)}
+        className={`${controlClass} flex h-12 items-center gap-2.5 px-3.5 text-left`}
+      >
+        {selected ? <CountryFlag code={selected.code} /> : null}
+        <span className={`min-w-0 flex-1 truncate ${selected ? "text-slate-900" : "text-slate-400"}`}>
+          {selected ? selected.name : "Select your country"}
+        </span>
+        <svg viewBox="0 0 20 20" aria-hidden="true" className="h-4 w-4 shrink-0 text-slate-500">
           <path
             d="M5.5 7.5 10 12l4.5-4.5"
             fill="none"
@@ -478,8 +525,38 @@ function CountryField({
             strokeLinejoin="round"
           />
         </svg>
-      </div>
-      <p id={error ? errorId : "country-hint"} className={`text-sm ${error ? "text-rose-700" : "text-slate-500"}`}>
+      </button>
+      {open ? (
+        <ul
+          id={listId}
+          role="listbox"
+          aria-labelledby="country-label"
+          className="absolute top-[4.6rem] z-20 max-h-64 w-full overflow-auto rounded-xl border border-slate-300 bg-white py-1 shadow-lg"
+        >
+          {ALLOWED_COUNTRIES.map((country) => {
+            const isSelected = country.name === value;
+            return (
+              <li key={country.name} role="presentation">
+                <button
+                  type="button"
+                  role="option"
+                  aria-selected={isSelected}
+                  onClick={() => {
+                    onChange(country.name);
+                    setOpen(false);
+                  }}
+                  className={`flex w-full items-center gap-2.5 px-3.5 py-2.5 text-left text-sm text-slate-900 hover:bg-slate-50 ${isSelected ? "bg-blue-50" : ""}`}
+                >
+                  <CountryFlag code={country.code} />
+                  <span className="min-w-0 flex-1">{country.name}</span>
+                  <span className="text-slate-500">{country.dial}</span>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      ) : null}
+      <p id={hintId} className={`text-sm ${error ? "text-rose-700" : "text-slate-500"}`}>
         {error ?? "Only these countries can work on this project."}
       </p>
     </div>
