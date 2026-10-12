@@ -28,22 +28,6 @@ const animationCss = `
     animation: gemma-buildup 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.85s forwards;
   }
 
-  .gemma-scene.is-still .gemma-word {
-    animation: none;
-    opacity: 1;
-    clip-path: none;
-  }
-
-  .gemma-scene.is-still .gemma-draw {
-    animation: none;
-    stroke-dashoffset: 0;
-  }
-
-  .gemma-scene.is-still .gemma-mark {
-    animation: none;
-    transform: none;
-  }
-
   @keyframes gemma-draw {
     to { stroke-dashoffset: 0; }
   }
@@ -70,12 +54,6 @@ export function GemmaMark() {
 
     const scene = root.querySelector(".gemma-scene");
     if (!scene) return;
-
-    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (motion.matches) {
-      scene.classList.add("is-still");
-      return;
-    }
 
     const nodes = () =>
       scene.querySelectorAll<HTMLElement>(".gemma-draw, .gemma-word, .gemma-mark");
