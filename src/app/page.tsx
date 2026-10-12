@@ -15,19 +15,6 @@ const steps = [
   },
 ];
 
-function GemMark() {
-  return (
-    <svg viewBox="0 0 36 36" aria-hidden="true" className="h-10 w-10">
-      <path fill="#60a5fa" d="M18 3 31 13 18 33 5 13Z" />
-      <path fill="#dbeafe" d="M18 3 24 13 18 17 12 13Z" />
-      <path fill="#1d4ed8" d="M12 13 18 17 5 13Z" />
-      <path fill="#93c5fd" d="M24 13 31 13 18 17Z" />
-      <path fill="#1e3a8a" d="M12 13 18 17 18 33 5 13Z" />
-      <path fill="#3b82f6" d="M24 13 31 13 18 33 18 17Z" />
-    </svg>
-  );
-}
-
 export default function Home() {
   return (
     <div className="bg-slate-950 lg:grid lg:min-h-dvh lg:grid-cols-[minmax(20rem,0.92fr)_minmax(0,1.08fr)]">
@@ -37,17 +24,13 @@ export default function Home() {
           className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-blue-500/20 blur-3xl"
         />
         <div className="relative">
-          <div className="flex items-center gap-3">
-            <GemMark />
-            <div>
-              <p className="font-serif text-2xl leading-none tracking-tight text-slate-100">Gemma</p>
-              <p className="mt-1 text-xs uppercase tracking-[0.16em] text-blue-400">
-                Job application
-              </p>
-            </div>
-          </div>
+          <iframe
+            src="/gemma-animation/index.html"
+            title="Gemma"
+            className="w-24 h-24 border-0 pointer-events-none"
+          />
 
-          <h1 className="mt-12 max-w-md font-serif text-4xl leading-[1.1] tracking-tight text-slate-100 sm:text-5xl">
+          <h1 className="mt-8 max-w-md font-serif text-4xl leading-[1.1] tracking-tight text-slate-100 sm:text-5xl">
             Apply to join Gemma.
           </h1>
           <p className="mt-5 max-w-sm text-base leading-7 text-slate-300">
@@ -78,7 +61,7 @@ export default function Home() {
         </p>
       </aside>
 
-      <main className="bg-white px-4 py-8 scheme-light sm:px-8 sm:py-12 lg:px-12 lg:py-16">
+      <main className="bg-white px-4 py-8 scheme-light sm:px-8 sm:py-12 lg:min-h-dvh lg:px-12 lg:py-16">
         <div className="mx-auto w-full max-w-xl">
           <ApplicationForm />
         </div>

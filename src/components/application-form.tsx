@@ -12,7 +12,6 @@ import {
   type FieldErrors,
 } from "@/lib/application";
 import { isSupabaseConfigured } from "@/lib/supabase";
-import { GemmaLogo } from "@/components/gemma-logo";
 
 const EMPTY_FIELDS: ApplicationFields = {
   fullName: "",
@@ -25,7 +24,7 @@ const EMPTY_FIELDS: ApplicationFields = {
 
 type Phase = "idle" | "uploading" | "saving" | "success";
 
-const cardClass = "rounded-xl border border-slate-200 bg-white text-slate-900 shadow-xl scheme-light";
+const cardClass = "bg-white text-slate-900 scheme-light";
 
 const controlClass =
   "w-full rounded-xl border border-slate-300 bg-white px-3.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 aria-invalid:border-rose-500 aria-invalid:ring-2 aria-invalid:ring-rose-500/30";
@@ -190,8 +189,7 @@ export function ApplicationForm() {
 
   if (phase === "success") {
     return (
-      <section className={`${cardClass} px-6 py-10 sm:px-8`}>
-        <GemmaLogo />
+      <section className={cardClass}>
         <p className="text-xs font-medium uppercase tracking-[0.16em] text-blue-700">
           Application received
         </p>
@@ -226,9 +224,8 @@ export function ApplicationForm() {
     <form
       noValidate
       onSubmit={handleSubmit}
-      className={`${cardClass} bg-white px-5 py-6 sm:px-8 sm:py-8`}
+      className={cardClass}
     >
-      <GemmaLogo />
       <div className="mb-8">
         <h2 className="font-serif text-3xl tracking-tight text-slate-900">Your application</h2>
         <p className="mt-2 text-sm leading-6 text-slate-700">Every field is required.</p>
