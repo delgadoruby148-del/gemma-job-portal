@@ -73,7 +73,7 @@ export function GemmaMark() {
   }, []);
 
   return (
-    <div ref={rootRef} className="mx-auto h-40 w-56 sm:h-44 sm:w-64">
+    <div ref={rootRef} className="h-40 w-56 sm:h-44 sm:w-64">
       <style>{animationCss}</style>
       <svg
         className="gemma-scene"

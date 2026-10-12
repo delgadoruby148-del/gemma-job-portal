@@ -27,7 +27,7 @@ export default function Home() {
         <div className="relative">
           <GemmaMark />
 
-          <h1 className="mt-8 max-w-md font-serif text-4xl leading-[1.1] tracking-tight text-slate-100 sm:text-5xl">
+          <h1 className="mt-3 max-w-md font-serif text-4xl leading-[1.1] tracking-tight text-slate-100 sm:text-5xl">
             Apply to join Gemma.
           </h1>
           <p className="mt-5 max-w-sm text-base leading-7 text-slate-300">
