@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { ApplicationForm } from "@/components/application-form";
 import { GemmaMark } from "@/components/gemma-mark";
+import { ProjectDetailsModal } from "@/components/project-details-modal";
 
 const steps = [
   {
@@ -41,12 +41,7 @@ export default function Home() {
               Choose one of 16 topics, draft a prompt that asks for a definite
               opinion, then rate the model and rewrite the answer.
             </p>
-            <Link
-              href="/project"
-              className="mt-5 inline-flex h-10 items-center rounded-full bg-blue-600 px-4 text-sm font-medium text-white transition hover:bg-blue-700 active:bg-blue-800 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 focus-visible:outline-none"
-            >
-              Read more
-            </Link>
+            <ProjectDetailsModal />
 
             <ol className="mt-10 space-y-5">
               {steps.map((step, index) => (
