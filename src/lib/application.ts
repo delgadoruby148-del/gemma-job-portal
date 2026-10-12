@@ -12,6 +12,17 @@ const CV_MIME_TYPES = {
   docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 } as const;
 
+export const ALLOWED_COUNTRIES = [
+  "United States",
+  "United Kingdom",
+  "Canada",
+  "Australia",
+  "Ireland",
+  "New Zealand",
+] as const;
+
+const ALLOWED_COUNTRY_SET = new Set<string>(ALLOWED_COUNTRIES);
+
 const DISCORD_PATTERN = /^[a-zA-Z0-9._]{2,32}$/;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_PATTERN = /^[0-9+().\-\s]+$/;
@@ -102,8 +113,8 @@ export function validateApplication(
     errors.fullName = "Enter your full name.";
   }
 
-  if (country.length < 2) {
-    errors.country = "Enter your country.";
+  if (!ALLOWED_COUNTRY_SET.has(country)) {
+    errors.country = "Select a country allowed for this project.";
   }
 
   if (!DISCORD_PATTERN.test(discordUsername)) {

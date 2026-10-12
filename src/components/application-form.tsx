@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import {
+  ALLOWED_COUNTRIES,
   FIELD_ORDER,
   getCvError,
   MAX_CV_MB,
@@ -254,12 +255,7 @@ export function ApplicationForm() {
               error={fieldErrors.fullName}
               onChange={(value) => updateField("fullName", value)}
             />
-            <TextField
-              id="country"
-              label="Country"
-              autoComplete="country-name"
-              autoCapitalize="words"
-              placeholder="Canada"
+            <CountryField
               value={fields.country}
               error={fieldErrors.country}
               onChange={(value) => updateField("country", value)}
@@ -431,6 +427,62 @@ export function ApplicationForm() {
         {buttonLabel}
       </button>
     </form>
+  );
+}
+
+function CountryField({
+  value,
+  onChange,
+  error,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+  error?: string;
+}) {
+  const errorId = "country-error";
+
+  return (
+    <div className="flex flex-col gap-2">
+      <label htmlFor="country" className="text-sm font-medium text-slate-900">
+        Country
+      </label>
+      <div className="relative">
+        <select
+          id="country"
+          name="country"
+          value={value}
+          autoComplete="country-name"
+          aria-invalid={Boolean(error)}
+          aria-describedby={error ? errorId : "country-hint"}
+          onChange={(event) => onChange(event.target.value)}
+          className={`${controlClass} h-12 appearance-none pr-10 ${value ? "" : "text-slate-400"}`}
+        >
+          <option value="">Select your country</option>
+          {ALLOWED_COUNTRIES.map((country) => (
+            <option key={country} value={country}>
+              {country}
+            </option>
+          ))}
+        </select>
+        <svg
+          viewBox="0 0 20 20"
+          aria-hidden="true"
+          className="pointer-events-none absolute top-1/2 right-3.5 h-4 w-4 -translate-y-1/2 text-slate-500"
+        >
+          <path
+            d="M5.5 7.5 10 12l4.5-4.5"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </div>
+      <p id={error ? errorId : "country-hint"} className={`text-sm ${error ? "text-rose-700" : "text-slate-500"}`}>
+        {error ?? "Only these countries can work on this project."}
+      </p>
+    </div>
   );
 }
 
