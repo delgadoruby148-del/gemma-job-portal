@@ -78,7 +78,7 @@ export default function Home() {
         </p>
       </aside>
 
-      <main className="px-4 py-8 sm:px-8 sm:py-12 lg:px-12 lg:py-16">
+      <main className="bg-white px-4 py-8 scheme-light sm:px-8 sm:py-12 lg:px-12 lg:py-16">
         <div className="mx-auto w-full max-w-xl">
           <ApplicationForm />
         </div>

@@ -12,6 +12,7 @@ import {
   type FieldErrors,
 } from "@/lib/application";
 import { isSupabaseConfigured } from "@/lib/supabase";
+import { GemmaLogo } from "@/components/gemma-logo";
 
 const EMPTY_FIELDS: ApplicationFields = {
   fullName: "",
@@ -190,6 +191,7 @@ export function ApplicationForm() {
   if (phase === "success") {
     return (
       <section className={`${cardClass} px-6 py-10 sm:px-8`}>
+        <GemmaLogo />
         <p className="text-xs font-medium uppercase tracking-[0.16em] text-blue-700">
           Application received
         </p>
@@ -224,8 +226,9 @@ export function ApplicationForm() {
     <form
       noValidate
       onSubmit={handleSubmit}
-      className={`${cardClass} px-5 py-6 sm:px-8 sm:py-8`}
+      className={`${cardClass} bg-white px-5 py-6 sm:px-8 sm:py-8`}
     >
+      <GemmaLogo />
       <div className="mb-8">
         <h2 className="font-serif text-3xl tracking-tight text-slate-900">Your application</h2>
         <p className="mt-2 text-sm leading-6 text-slate-700">Every field is required.</p>
