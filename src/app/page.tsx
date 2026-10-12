@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ApplicationForm } from "@/components/application-form";
 import { GemmaMark } from "@/components/gemma-mark";
 
@@ -31,9 +32,15 @@ export default function Home() {
             Apply to join Gemma.
           </h1>
           <p className="mt-5 max-w-sm text-base leading-7 text-slate-300">
-            Send your details, a CV, and a short note. The form asks only for
-            what the hiring team needs to read.
+            Senior AI Model Specialist. Write prompts, score model answers, and
+            draft the benchmark response. $100.00 an hour.
           </p>
+          <Link
+            href="/project"
+            className="mt-5 inline-flex h-10 items-center rounded-full bg-blue-600 px-4 text-sm font-medium text-white transition hover:bg-blue-700 active:bg-blue-800 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 focus-visible:outline-none"
+          >
+            Read more
+          </Link>
 
           <ol className="mt-10 space-y-5">
             {steps.map((step, index) => (
