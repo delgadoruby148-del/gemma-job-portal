@@ -30,7 +30,7 @@ function GemMark() {
 
 export default function Home() {
   return (
-    <div className="lg:grid lg:min-h-dvh lg:grid-cols-[minmax(20rem,0.92fr)_minmax(0,1.08fr)]">
+    <div className="bg-slate-950 lg:grid lg:min-h-dvh lg:grid-cols-[minmax(20rem,0.92fr)_minmax(0,1.08fr)]">
       <aside className="relative flex flex-col justify-between overflow-hidden border-slate-800 bg-slate-900 px-6 py-10 text-slate-100 sm:px-10 sm:py-14 lg:sticky lg:top-0 lg:h-dvh lg:border-r lg:px-12">
         <div
           aria-hidden="true"

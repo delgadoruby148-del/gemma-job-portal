@@ -24,11 +24,13 @@ const EMPTY_FIELDS: ApplicationFields = {
 
 type Phase = "idle" | "uploading" | "saving" | "success";
 
+const cardClass = "rounded-xl border border-slate-200 bg-white text-slate-900 shadow-xl scheme-light";
+
 const controlClass =
-  "w-full rounded-xl border border-slate-700 bg-slate-800 px-3.5 text-sm text-slate-100 outline-none transition placeholder:text-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 aria-invalid:border-rose-400 aria-invalid:ring-2 aria-invalid:ring-rose-400/40";
+  "w-full rounded-xl border border-slate-300 bg-white px-3.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 aria-invalid:border-rose-500 aria-invalid:ring-2 aria-invalid:ring-rose-500/30";
 
 const buttonClass =
-  "inline-flex h-12 items-center justify-center gap-2 rounded-full bg-blue-600 text-sm font-medium text-white transition hover:bg-blue-700 active:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-60";
+  "inline-flex h-12 items-center justify-center gap-2 rounded-full bg-blue-600 text-sm font-medium text-white transition hover:bg-blue-700 active:bg-blue-800 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-60";
 
 function formatFileSize(bytes: number): string {
   if (bytes < 1024) {
@@ -187,18 +189,18 @@ export function ApplicationForm() {
 
   if (phase === "success") {
     return (
-      <section className="rounded-3xl border border-slate-800 bg-slate-900 px-6 py-10 shadow-[0_24px_60px_-36px_rgba(37,99,235,0.45)] sm:px-8">
-        <p className="text-xs font-medium uppercase tracking-[0.16em] text-blue-400">
+      <section className={`${cardClass} px-6 py-10 sm:px-8`}>
+        <p className="text-xs font-medium uppercase tracking-[0.16em] text-blue-700">
           Application received
         </p>
         <h2
           ref={successHeadingRef}
           tabIndex={-1}
-          className="mt-3 font-serif text-4xl tracking-tight text-slate-100 outline-none"
+          className="mt-3 font-serif text-4xl tracking-tight text-slate-900 outline-none"
         >
           Thank you, {submittedName}.
         </h2>
-        <p className="mt-4 max-w-md text-base leading-7 text-slate-300">
+        <p className="mt-4 max-w-md text-base leading-7 text-slate-700">
           Your CV is filed, and your details are saved with the Gemma hiring
           team.
         </p>
@@ -222,15 +224,15 @@ export function ApplicationForm() {
     <form
       noValidate
       onSubmit={handleSubmit}
-      className="rounded-3xl border border-slate-800 bg-slate-900 px-5 py-6 shadow-[0_24px_60px_-36px_rgba(37,99,235,0.45)] sm:px-8 sm:py-8"
+      className={`${cardClass} px-5 py-6 sm:px-8 sm:py-8`}
     >
       <div className="mb-8">
-        <h2 className="font-serif text-3xl tracking-tight text-slate-100">Your application</h2>
-        <p className="mt-2 text-sm leading-6 text-slate-400">Every field is required.</p>
+        <h2 className="font-serif text-3xl tracking-tight text-slate-900">Your application</h2>
+        <p className="mt-2 text-sm leading-6 text-slate-700">Every field is required.</p>
       </div>
 
       {!configured ? (
-        <p className="mb-6 rounded-xl border border-blue-500/30 bg-blue-500/10 px-4 py-3 text-sm leading-6 text-slate-200">
+        <p className="mb-6 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm leading-6 text-slate-700">
           Add your Supabase URL and anon key to <span className="font-medium">.env.local</span>{" "}
           before submitting. The form will upload the CV, then save the rest.
         </p>
@@ -238,7 +240,7 @@ export function ApplicationForm() {
 
       <div className="space-y-8">
         <fieldset className="space-y-4">
-          <legend className="text-xs font-medium uppercase tracking-[0.16em] text-blue-400">
+          <legend className="text-xs font-medium uppercase tracking-[0.16em] text-blue-700">
             Contact
           </legend>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -302,26 +304,26 @@ export function ApplicationForm() {
         </fieldset>
 
         <fieldset className="space-y-4">
-          <legend className="text-xs font-medium uppercase tracking-[0.16em] text-blue-400">
+          <legend className="text-xs font-medium uppercase tracking-[0.16em] text-blue-700">
             Work
           </legend>
           <div className="flex flex-col gap-2">
-            <span className="text-sm font-medium text-slate-300" id="cv-label">
+            <span className="text-sm font-medium text-slate-900" id="cv-label">
               CV Upload
             </span>
             {cv ? (
-              <div className="flex items-center gap-3 rounded-xl border border-slate-700 bg-slate-800 px-3.5 py-3">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-500/15 font-serif text-sm text-blue-400">
+              <div className="flex items-center gap-3 rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-3">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-50 font-serif text-sm text-blue-700">
                   CV
                 </span>
                 <span className="min-w-0 flex-1">
-                  <span className="block truncate text-sm font-medium text-slate-100">{cv.name}</span>
-                  <span className="block text-xs text-slate-400">{formatFileSize(cv.size)}</span>
+                  <span className="block truncate text-sm font-medium text-slate-900">{cv.name}</span>
+                  <span className="block text-xs text-slate-500">{formatFileSize(cv.size)}</span>
                 </span>
                 <button
                   type="button"
                   onClick={clearCv}
-                  className="text-sm font-medium text-blue-400 underline-offset-4 hover:text-blue-300 hover:underline"
+                  className="text-sm font-medium text-blue-700 underline-offset-4 hover:text-blue-800 hover:underline"
                 >
                   Remove
                 </button>
@@ -344,10 +346,10 @@ export function ApplicationForm() {
                   ? "sr-only"
                   : `flex cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed px-4 py-8 text-center transition focus-within:ring-2 focus-within:ring-blue-500 ${
                       isDragging
-                        ? "border-blue-500 bg-blue-500/10"
+                        ? "border-blue-500 bg-blue-50"
                         : fieldErrors.cv
-                          ? "border-rose-400 bg-rose-500/10"
-                          : "border-slate-700 bg-slate-800 hover:border-blue-500"
+                          ? "border-rose-500 bg-rose-50"
+                          : "border-slate-300 bg-slate-50 hover:border-blue-500"
                     }`
               }`}
             >
@@ -363,20 +365,20 @@ export function ApplicationForm() {
                 className="sr-only"
                 onChange={(event) => acceptFile(event.target.files?.[0] ?? null)}
               />
-              <span className="text-sm font-medium text-slate-100">Choose a file or drop it here</span>
-              <span id="cv-hint" className="mt-1 text-xs text-slate-400">
+              <span className="text-sm font-medium text-slate-900">Choose a file or drop it here</span>
+              <span id="cv-hint" className="mt-1 text-xs text-slate-500">
                 PDF, DOC, or DOCX, up to {MAX_CV_MB} MB
               </span>
             </label>
             {fieldErrors.cv ? (
-              <p id="cv-error" className="text-sm text-rose-300">
+              <p id="cv-error" className="text-sm text-rose-700">
                 {fieldErrors.cv}
               </p>
             ) : null}
           </div>
 
           <div className="flex flex-col gap-2">
-            <label htmlFor="briefDescription" className="text-sm font-medium text-slate-300">
+            <label htmlFor="briefDescription" className="text-sm font-medium text-slate-900">
               Brief Description
             </label>
             <textarea
@@ -394,11 +396,11 @@ export function ApplicationForm() {
             <div className="flex items-start justify-between gap-4">
               <p
                 id="briefDescription-hint"
-                className={`text-sm ${fieldErrors.briefDescription ? "text-rose-300" : "text-slate-400"}`}
+                className={`text-sm ${fieldErrors.briefDescription ? "text-rose-700" : "text-slate-500"}`}
               >
                 {fieldErrors.briefDescription ?? "At least 20 characters."}
               </p>
-              <p className="shrink-0 text-xs text-slate-400">
+              <p className="shrink-0 text-xs text-slate-500">
                 {descriptionLength}/{MAX_DESCRIPTION_LENGTH}
               </p>
             </div>
@@ -407,7 +409,7 @@ export function ApplicationForm() {
       </div>
 
       {formError ? (
-        <p role="alert" className="mt-6 rounded-xl border border-rose-400/40 bg-rose-500/10 px-4 py-3 text-sm text-rose-200">
+        <p role="alert" className="mt-6 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
           {formError}
         </p>
       ) : null}
@@ -463,12 +465,12 @@ function TextField({
 
   return (
     <div className="flex flex-col gap-2">
-      <label htmlFor={id} className="text-sm font-medium text-slate-300">
+      <label htmlFor={id} className="text-sm font-medium text-slate-900">
         {label}
       </label>
       <div className="relative">
         {prefix ? (
-          <span className="pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-sm text-slate-400">
+          <span className="pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-sm text-slate-500">
             {prefix}
           </span>
         ) : null}
@@ -489,7 +491,7 @@ function TextField({
         />
       </div>
       {error ? (
-        <p id={errorId} className="text-sm text-rose-300">
+        <p id={errorId} className="text-sm text-rose-700">
           {error}
         </p>
       ) : null}
