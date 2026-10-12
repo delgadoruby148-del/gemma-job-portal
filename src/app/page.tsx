@@ -1,4 +1,5 @@
 import { ApplicationForm } from "@/components/application-form";
+import { DiscordCommunityLink } from "@/components/discord-community-link";
 import { GemmaMark } from "@/components/gemma-mark";
 import { ProjectDetailsModal } from "@/components/project-details-modal";
 
@@ -41,7 +42,10 @@ export default function Home() {
               Choose one of 16 topics, draft a prompt that asks for a definite
               opinion, then rate the model and rewrite the answer.
             </p>
-            <ProjectDetailsModal />
+            <div className="mt-5 flex flex-wrap items-center gap-3">
+              <ProjectDetailsModal />
+              <DiscordCommunityLink className="focus-visible:ring-offset-slate-900" />
+            </div>
 
             <ol className="mt-10 space-y-5">
               {steps.map((step, index) => (

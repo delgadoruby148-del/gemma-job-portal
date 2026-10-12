@@ -14,6 +14,7 @@ import {
   type ApplicationFields,
   type FieldErrors,
 } from "@/lib/application";
+import { DiscordCommunityLink } from "@/components/discord-community-link";
 import { isSupabaseConfigured } from "@/lib/supabase";
 
 const EMPTY_FIELDS: ApplicationFields = {
@@ -220,9 +221,29 @@ export function ApplicationForm() {
           Your CV is filed, and your details are saved with the Gemma hiring
           team.
         </p>
-        <button type="button" onClick={resetForm} className={`${buttonClass} mt-8 px-6`}>
-          Submit another application
-        </button>
+        <p className="mt-4 max-w-md text-base font-semibold leading-7 text-slate-900">
+          You will receive a response within 24 hours.
+        </p>
+        <p className="mt-4 max-w-md text-base leading-7 text-slate-700">
+          This project will be executed on the{" "}
+          <a
+            href="https://orbit-tech-ai.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-blue-700 underline-offset-4 hover:underline"
+          >
+            Orbit Tech AI
+          </a>{" "}
+          platform at orbit-tech-ai.com. Join the Orbit Tech AI Discord
+          community to meet fellow annotators, get project announcements, and
+          get support if you have any issues.
+        </p>
+        <div className="mt-8 flex flex-wrap items-center gap-3">
+          <DiscordCommunityLink className="focus-visible:ring-offset-white" />
+          <button type="button" onClick={resetForm} className={`${buttonClass} px-6`}>
+            Submit another application
+          </button>
+        </div>
       </section>
     );
   }
