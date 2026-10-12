@@ -234,7 +234,7 @@ export function ApplicationForm() {
           >
             Orbit Tech AI
           </a>{" "}
-          platform at orbit-tech-ai.com. Join the Orbit Tech AI Discord
+          platform. Join the Orbit Tech AI Discord
           community to meet fellow annotators, get project announcements, and
           get support if you have any issues.
         </p>
