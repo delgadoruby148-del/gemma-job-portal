@@ -1,6 +1,6 @@
 export function GemmaMark() {
   return (
-    <div className="h-40 w-56 sm:h-44 sm:w-64">
+    <div className="h-36 w-56 sm:h-40 sm:w-64 lg:h-44 lg:w-72">
       <svg
         className="block h-full w-full"
         viewBox="250 70 530 370"
