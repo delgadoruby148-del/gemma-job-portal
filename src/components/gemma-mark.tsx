@@ -1,0 +1,169 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+
+const animationCss = `
+  .gemma-scene {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+  }
+
+  .gemma-mark {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: gemma-assemble 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+  }
+
+  .gemma-draw {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: gemma-draw var(--dur, 0.45s) cubic-bezier(0.45, 0, 0.15, 1) var(--delay, 0s) forwards;
+  }
+
+  .gemma-word {
+    opacity: 0;
+    clip-path: inset(100% 0 0 0);
+    animation: gemma-buildup 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.85s forwards;
+  }
+
+  .gemma-scene.is-still .gemma-word {
+    animation: none;
+    opacity: 1;
+    clip-path: none;
+  }
+
+  .gemma-scene.is-still .gemma-draw {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+
+  .gemma-scene.is-still .gemma-mark {
+    animation: none;
+    transform: none;
+  }
+
+  @keyframes gemma-draw {
+    to { stroke-dashoffset: 0; }
+  }
+
+  @keyframes gemma-assemble {
+    0% { transform: scale(0.42); }
+    62% { transform: scale(1); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes gemma-buildup {
+    0% { opacity: 0; clip-path: inset(100% 0 0 0); }
+    20% { opacity: 1; }
+    100% { opacity: 1; clip-path: inset(0 0 0 0); }
+  }
+`;
+
+export function GemmaMark() {
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+
+    const scene = root.querySelector(".gemma-scene");
+    if (!scene) return;
+
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (motion.matches) {
+      scene.classList.add("is-still");
+      return;
+    }
+
+    const nodes = () =>
+      scene.querySelectorAll<HTMLElement>(".gemma-draw, .gemma-word, .gemma-mark");
+
+    const replay = () => {
+      nodes().forEach((node) => {
+        node.style.animation = "none";
+      });
+      void scene.getBoundingClientRect();
+      nodes().forEach((node) => {
+        node.style.animation = "";
+      });
+    };
+
+    const timer = window.setInterval(replay, 3000);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  return (
+    <div ref={rootRef} className="h-72 w-full sm:h-80">
+      <style>{animationCss}</style>
+      <svg
+        className="gemma-scene"
+        viewBox="250 70 530 370"
+        preserveAspectRatio="xMidYMid meet"
+        role="img"
+        aria-label="Gemma"
+      >
+        <defs>
+          <linearGradient id="gemma-mark-stroke" x1="420" y1="270" x2="575" y2="95" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stopColor="#7eb0ff" />
+            <stop offset="0.45" stopColor="#b7d0ff" />
+            <stop offset="1" stopColor="#f7f9ff" />
+          </linearGradient>
+          <linearGradient id="gemma-word-base" x1="300" y1="428" x2="300" y2="328" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stopColor="#5b93ff" />
+            <stop offset="1" stopColor="#8eb6ff" />
+          </linearGradient>
+          <radialGradient id="gemma-word-sheen" cx="790" cy="300" r="210" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stopColor="#f4f7ff" />
+            <stop offset="0.45" stopColor="#c5d6ff" />
+            <stop offset="1" stopColor="#8eb6ff" stopOpacity="0" />
+          </radialGradient>
+          <path
+            id="gemma-word"
+            fillRule="evenodd"
+            d="M 341.6 329.6 L 345.9 329.2 L 354.7 330.3 L 365.3 333.7 L 375.1 339.9 L 376.4 342.2 L 376.2 344.3 L 373.6 347.6 L 370.3 348.5 L 360.1 342.9 L 354.1 340.9 L 341.1 340.1 L 330.7 342.7 L 324.1 346.1 L 320.8 348.8 L 316.4 353.4 L 312.7 359.7 L 310.4 365.4 L 309.1 372.1 L 309.2 381.8 L 310.7 388.3 L 314.7 397.3 L 317.8 401.2 L 326.4 408.6 L 335.7 412.3 L 344.9 413.5 L 357.5 411.5 L 366.1 407.1 L 372.7 400.7 L 376.4 393.4 L 377.5 386.4 L 376.2 384.8 L 373.9 384.1 L 347.4 383.6 L 345.2 380.8 L 345.2 377.2 L 346.2 375.2 L 351.0 374.0 L 383.9 374.1 L 387.8 375.2 L 388.9 378.1 L 388.8 384.8 L 386.9 394.9 L 384.3 401.3 L 379.1 409.1 L 375.6 412.6 L 367.1 418.1 L 360.2 421.2 L 353.7 422.7 L 345.1 423.5 L 335.4 422.6 L 327.7 420.3 L 317.9 415.1 L 312.3 410.7 L 303.4 398.6 L 300.2 390.8 L 298.3 381.7 L 298.2 372.2 L 300.5 361.5 L 304.1 353.1 L 309.9 344.9 L 317.3 338.3 L 324.7 333.7 L 333.7 330.7 L 340.7 329.7 Z M 421.6 355.6 L 433.3 356.7 L 443.1 361.9 L 449.9 370.1 L 453.7 380.3 L 453.8 388.8 L 452.8 390.8 L 450.8 391.8 L 407.1 391.4 L 404.2 392.9 L 404.5 398.5 L 407.3 404.7 L 411.6 409.4 L 419.7 413.3 L 426.9 413.9 L 434.1 412.1 L 444.5 403.8 L 447.0 404.1 L 450.7 406.2 L 451.4 408.0 L 450.5 410.5 L 444.2 417.2 L 438.0 421.0 L 431.8 422.8 L 425.0 423.7 L 416.5 422.5 L 405.6 417.4 L 401.3 413.7 L 397.2 407.8 L 393.3 396.7 L 393.6 381.6 L 395.7 374.7 L 399.6 367.6 L 403.8 362.8 L 409.1 359.1 L 414.7 356.7 L 420.7 355.7 Z M 492.5 355.6 L 499.0 356.0 L 504.6 357.4 L 514.3 365.3 L 516.7 364.6 L 525.0 358.0 L 534.3 355.3 L 545.3 356.7 L 552.2 360.8 L 557.0 369.0 L 558.9 378.1 L 558.9 417.9 L 557.8 420.8 L 555.8 421.8 L 550.4 421.6 L 548.2 418.8 L 548.0 379.0 L 546.8 373.2 L 545.1 369.9 L 542.5 367.5 L 534.0 365.2 L 529.2 366.2 L 523.9 368.9 L 520.2 373.2 L 517.9 377.9 L 517.0 384.0 L 516.9 416.9 L 515.8 420.8 L 513.8 421.8 L 509.2 421.8 L 507.2 420.8 L 506.2 418.8 L 506.0 380.0 L 504.3 372.7 L 502.5 369.5 L 499.7 367.3 L 492.0 365.2 L 487.0 366.0 L 483.0 368.0 L 479.9 370.9 L 476.7 375.7 L 475.0 383.0 L 474.8 418.8 L 473.8 420.8 L 471.8 421.8 L 467.2 421.8 L 465.2 420.8 L 464.0 415.0 L 464.4 359.4 L 466.4 357.5 L 471.6 357.5 L 473.2 358.8 L 474.5 363.3 L 475.7 364.0 L 484.1 358.1 L 491.7 355.8 Z M 598.6 355.6 L 603.8 355.2 L 610.3 356.7 L 616.0 360.0 L 620.4 364.5 L 622.0 365.2 L 631.3 358.3 L 641.2 355.2 L 652.5 356.5 L 656.5 358.5 L 659.7 361.3 L 664.3 368.7 L 666.0 377.0 L 665.9 416.9 L 665.2 420.2 L 662.8 421.8 L 657.7 421.3 L 656.0 420.0 L 655.2 417.8 L 655.0 379.0 L 653.8 373.2 L 652.1 369.9 L 649.4 367.6 L 646.0 366.0 L 641.0 365.2 L 636.2 366.2 L 632.3 368.3 L 627.5 373.5 L 624.9 378.9 L 624.0 385.0 L 623.9 416.9 L 622.8 420.8 L 620.8 421.8 L 616.2 421.8 L 614.2 420.8 L 613.2 418.8 L 613.0 379.0 L 612.0 374.0 L 609.5 369.5 L 607.5 367.5 L 599.0 365.2 L 594.2 366.2 L 589.5 368.5 L 584.0 376.0 L 582.1 383.1 L 581.6 419.6 L 580.2 421.2 L 577.9 421.9 L 574.2 421.8 L 572.2 420.8 L 571.0 415.0 L 571.4 359.4 L 573.4 357.5 L 578.6 357.5 L 580.2 358.8 L 581.5 363.3 L 582.7 364.0 L 591.1 358.1 L 597.8 355.8 Z M 696.6 355.6 L 703.8 355.2 L 715.3 357.7 L 722.7 362.3 L 727.3 368.7 L 729.9 379.1 L 730.0 415.0 L 729.2 420.2 L 726.8 421.8 L 723.2 421.8 L 721.2 420.8 L 719.5 415.7 L 718.3 415.0 L 710.9 419.9 L 705.5 422.5 L 697.9 423.7 L 691.3 422.7 L 686.7 421.3 L 681.9 418.1 L 678.3 414.7 L 676.0 411.0 L 674.2 404.8 L 674.5 397.5 L 677.5 390.5 L 682.0 386.0 L 687.2 383.2 L 694.2 381.2 L 706.9 381.1 L 716.4 383.1 L 718.6 381.5 L 718.5 376.5 L 716.7 372.3 L 712.1 367.9 L 707.1 365.9 L 701.1 365.1 L 695.2 366.2 L 684.8 372.4 L 682.1 371.9 L 678.8 369.2 L 677.9 367.6 L 678.1 365.9 L 681.9 361.9 L 688.7 357.7 L 695.8 355.8 Z M 421.3 365.3 L 415.1 367.1 L 409.8 370.8 L 405.1 379.0 L 405.3 381.9 L 410.0 383.0 L 438.9 382.9 L 441.8 381.8 L 442.5 379.2 L 438.2 370.8 L 431.5 366.5 L 422.2 365.2 Z M 700.3 389.3 L 693.8 390.8 L 688.8 393.8 L 685.8 398.8 L 685.2 403.8 L 686.9 408.1 L 692.1 412.9 L 696.1 413.9 L 702.8 413.8 L 709.3 411.3 L 713.7 407.7 L 717.5 402.5 L 718.8 397.0 L 717.6 393.4 L 714.6 391.4 L 701.2 389.2 Z"
+          />
+        </defs>
+
+        <g className="gemma-mark" fill="none" stroke="url(#gemma-mark-stroke)" strokeLinecap="butt" strokeLinejoin="round">
+          <circle
+            className="gemma-draw"
+            cx="511.5"
+            cy="196.5"
+            r="70.71"
+            strokeWidth="4.5"
+            pathLength="1"
+            transform="rotate(-90 511.5 196.5)"
+            style={{ ["--delay" as string]: "0.75s", ["--dur" as string]: "0.5s" }}
+          />
+          <path className="gemma-draw" pathLength="1" strokeWidth="4.5" style={{ ["--delay" as string]: "0.12s", ["--dur" as string]: "0.4s" }} d="M 511.5 196.5 V 96.5" />
+          <path className="gemma-draw" pathLength="1" strokeWidth="4.5" style={{ ["--delay" as string]: "0.12s", ["--dur" as string]: "0.4s" }} d="M 511.5 196.5 V 296.5" />
+          <path className="gemma-draw" pathLength="1" strokeWidth="4.5" style={{ ["--delay" as string]: "0.12s", ["--dur" as string]: "0.4s" }} d="M 511.5 196.5 H 411.5" />
+          <path className="gemma-draw" pathLength="1" strokeWidth="4.5" style={{ ["--delay" as string]: "0.12s", ["--dur" as string]: "0.4s" }} d="M 511.5 196.5 H 611.5" />
+          <path className="gemma-draw" pathLength="1" strokeWidth="4.5" style={{ ["--delay" as string]: "0.42s", ["--dur" as string]: "0.35s" }} d="M 511.5 146.5 H 436.5" />
+          <path className="gemma-draw" pathLength="1" strokeWidth="4.5" style={{ ["--delay" as string]: "0.42s", ["--dur" as string]: "0.35s" }} d="M 511.5 146.5 H 586.5" />
+          <path className="gemma-draw" pathLength="1" strokeWidth="4.5" style={{ ["--delay" as string]: "0.5s", ["--dur" as string]: "0.35s" }} d="M 511.5 246.5 H 436.5" />
+          <path className="gemma-draw" pathLength="1" strokeWidth="4.5" style={{ ["--delay" as string]: "0.5s", ["--dur" as string]: "0.35s" }} d="M 511.5 246.5 H 586.5" />
+          <path className="gemma-draw" pathLength="1" strokeWidth="4.5" style={{ ["--delay" as string]: "0.58s", ["--dur" as string]: "0.35s" }} d="M 461.5 196.5 V 121.5" />
+          <path className="gemma-draw" pathLength="1" strokeWidth="4.5" style={{ ["--delay" as string]: "0.58s", ["--dur" as string]: "0.35s" }} d="M 461.5 196.5 V 271.5" />
+          <path className="gemma-draw" pathLength="1" strokeWidth="4.5" style={{ ["--delay" as string]: "0.64s", ["--dur" as string]: "0.35s" }} d="M 561.5 196.5 V 121.5" />
+          <path className="gemma-draw" pathLength="1" strokeWidth="4.5" style={{ ["--delay" as string]: "0.64s", ["--dur" as string]: "0.35s" }} d="M 561.5 196.5 V 271.5" />
+          <path
+            className="gemma-draw"
+            pathLength="1"
+            strokeWidth="9"
+            strokeLinecap="round"
+            style={{ ["--delay" as string]: "1.15s", ["--dur" as string]: "0.55s" }}
+            d="M 511.5 125.79 Q 511.5 196.5 582.21 196.5 Q 511.5 196.5 511.5 267.21 Q 511.5 196.5 440.79 196.5 Q 511.5 196.5 511.5 125.79"
+          />
+        </g>
+
+        <g className="gemma-word">
+          <use href="#gemma-word" fill="url(#gemma-word-base)" />
+          <use href="#gemma-word" fill="url(#gemma-word-sheen)" />
+        </g>
+      </svg>
+    </div>
+  );
+}
