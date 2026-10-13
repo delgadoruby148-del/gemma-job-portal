@@ -1,6 +1,5 @@
 import { ApplicationForm } from "@/components/application-form";
 import { DiscordCommunityLink } from "@/components/discord-community-link";
-import { GemmaMark } from "@/components/gemma-mark";
 import { ProjectDetailsModal } from "@/components/project-details-modal";
 
 const steps = [
@@ -28,7 +27,13 @@ export default function Home() {
         />
         <div className="relative mx-auto flex w-full max-w-xl flex-1 flex-col justify-between lg:max-w-2xl">
           <div>
-            <GemmaMark />
+            <img
+              src="/orbit-logo.png"
+              alt="Orbit"
+              width={600}
+              height={182}
+              className="h-auto w-56 sm:w-72 lg:w-80"
+            />
 
             <p className="mt-5 text-base leading-7 text-slate-300 sm:text-lg sm:leading-8">
               Project Gemma trains models to give clear, balanced opinions. As a
